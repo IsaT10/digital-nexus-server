@@ -23,6 +23,22 @@ async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
+
+    const productCollection = client
+      .db("digitalNexusDB")
+      .collection("products");
+    const brandCollection = client.db("digitalNexusDB").collection("brands");
+
+    app.get("/brands", async (req, res) => {
+      const result = await brandCollection.find().toArray();
+      res.send(result);
+    });
+
+    app.post("/products", async (req, res) => {
+      const product = req.body;
+      const result = await productCollection.insertOne(product);
+      res.send(result);
+    });
     // Send a ping to confirm a successful connection
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
