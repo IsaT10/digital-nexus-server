@@ -70,6 +70,13 @@ async function run() {
       const result = await cartCollection.insertOne(product);
       res.send(result);
     });
+
+    app.delete("/cart/:id", async (req, res) => {
+      const { id } = req.params;
+      const query = { _id: new ObjectId(id) };
+      const result = await cartCollection.deleteOne(query);
+      res.send(result);
+    });
     // Send a ping to confirm a successful connection
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
