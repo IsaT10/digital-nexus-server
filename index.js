@@ -25,6 +25,7 @@ async function run() {
       .db("digitalNexusDB")
       .collection("products");
     const brandCollection = client.db("digitalNexusDB").collection("brands");
+
     const cartCollection = client.db("digitalNexusDB").collection("cart");
 
     //get brands
@@ -63,6 +64,15 @@ async function run() {
       const { id } = req.params;
       const query = { _id: new ObjectId(id) };
       const result = await productCollection.findOne(query);
+      res.send(result);
+    });
+
+    //get specific email cart
+
+    app.get("/cart/:email", async (req, res) => {
+      const { email } = req.params;
+      const query = { email: email };
+      const result = await cartCollection.find(query).toArray();
       res.send(result);
     });
 
